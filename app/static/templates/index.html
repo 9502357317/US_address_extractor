@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Extraction Portal</title>
+    
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="background-decor blob-1"></div>
+    <div class="background-decor blob-2"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-wrapper">
+                <div class="logo-icon">
+                    <i data-lucide="map-pin"></i>
+                </div>
+                <h1>Address Extract</h1>
+            </div>
+            <p class="subtitle">Extract standardized US addresses from PDFs and TXT files instantly.</p>
+        </header>
+
+        <!-- Main Card -->
+        <main class="main-card">
+            <!-- Alert Banner -->
+            <div id="error-banner" class="alert-banner alert-error hidden">
+                <div class="alert-icon">
+                    <i data-lucide="alert-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <span id="error-message"></span>
+                </div>
+                <button type="button" class="alert-close" id="close-error">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <!-- Upload Area -->
+            <section class="upload-section">
+                <form id="upload-form" class="upload-form">
+                    <div class="drop-zone" id="drop-zone">
+                        <input type="file" id="file-input" name="file" accept=".pdf,.txt" class="file-input">
+                        <div class="drop-zone-content">
+                            <div class="upload-icon-wrapper">
+                                <i data-lucide="upload-cloud" class="upload-icon"></i>
+                            </div>
+                            <h3>Drag & Drop your file here</h3>
+                            <p class="file-limits">Supports PDF and TXT files up to 10MB</p>
+                            <button type="button" class="btn btn-secondary" id="browse-btn">
+                                <i data-lucide="folder-open"></i> Browse Files
+                            </button>
+                        </div>
+                        <div class="file-selected-state hidden" id="file-selected-state">
+                            <i data-lucide="file-text" class="selected-file-icon"></i>
+                            <span class="selected-file-name" id="selected-file-name">filename.txt</span>
+                            <span class="selected-file-size" id="selected-file-size">0 KB</span>
+                            <button type="button" class="btn-remove" id="remove-file-btn">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submit-btn" disabled>
+                            <i data-lucide="sparkles"></i> Extract Addresses
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Loading Indicator -->
+            <div id="loading-indicator" class="loading-indicator hidden">
+                <div class="spinner-wrapper">
+                    <div class="spinner"></div>
+                </div>
+                <p class="loading-text">Processing document and validating addresses...</p>
+                <p class="loading-subtext">This may take a few seconds...</p>
+            </div>
+
+            <!-- Results Section -->
+            <section id="results-section" class="results-section hidden">
+                <div class="results-header">
+                    <div class="results-meta">
+                        <h2>Extracted Addresses</h2>
+                        <span id="results-count" class="badge">0 addresses found</span>
+                    </div>
+                    <div class="actions-group">
+                        <button type="button" class="btn btn-export" id="download-json-btn">
+                            <i data-lucide="download"></i> Download JSON
+                        </button>
+                        <button type="button" class="btn btn-export" id="export-csv-btn">
+                            <i data-lucide="file-spreadsheet"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">#</th>
+                                <th>Full Address</th>
+                                <th>Street</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zip</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Populated via Javascript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>Powered by Smarty US Extract API</p>
+        </footer>
+    </div>
+
+    <!-- Script -->
+    <script src="/static/js/script.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,20 +1,24 @@
 import os
+
 from dotenv import load_dotenv
 
-# Load .env file and override existing environment variables
+
+# Load environment variables from the project's .env file.
 load_dotenv(override=True)
 
+# Read Smarty API credentials without printing or logging secret values.
 SMARTY_AUTH_ID = os.getenv("SMARTY_AUTH_ID")
 SMARTY_AUTH_TOKEN = os.getenv("SMARTY_AUTH_TOKEN")
 
-# Debug logging for troubleshooting credentials
-print(f"\n--- DEBUG: CREDENTIAL CHECK ---")
-print(f"SMARTY_AUTH_ID:     {repr(SMARTY_AUTH_ID)} (len={len(SMARTY_AUTH_ID) if SMARTY_AUTH_ID else 0})")
-print(f"SMARTY_AUTH_TOKEN:  {repr(SMARTY_AUTH_TOKEN)} (len={len(SMARTY_AUTH_TOKEN) if SMARTY_AUTH_TOKEN else 0})")
-print(f"--------------------------------\n")
 
+# Stop application startup when the Smarty authentication ID is missing.
 if not SMARTY_AUTH_ID:
-    raise ValueError("SMARTY_AUTH_ID is missing from the environment configuration.")
+    raise ValueError(
+        "SMARTY_AUTH_ID is missing from the environment configuration."
+    )
 
+# Stop application startup when the Smarty authentication token is missing.
 if not SMARTY_AUTH_TOKEN:
-    raise ValueError("SMARTY_AUTH_TOKEN is missing from the environment configuration.")
+    raise ValueError(
+        "SMARTY_AUTH_TOKEN is missing from the environment configuration."
+    )

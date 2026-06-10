@@ -6,3 +6,6 @@ __pycache__/
 .vscode/
 venv/
 .idea/
+*.db
+*.log
+address_extraction_report.pdf

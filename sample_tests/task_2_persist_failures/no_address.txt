@@ -1,0 +1,1 @@
+This is a document about server setup guidelines. It contains meeting notes and general project guidelines but no addresses whatsoever.

@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css?v=2">
 </head>
 <body>
     <div class="background-decor blob-1"></div>
@@ -124,6 +124,85 @@
                     </table>
                 </div>
             </section>
+
+            <!-- Duplicate Address Review Queue -->
+            <section id="review-section" class="results-section hidden">
+                <div class="results-header">
+                    <div class="results-meta">
+                        <h2>Duplicate Review Queue</h2>
+                        <span id="review-count" class="badge">0 candidates pending</span>
+                    </div>
+                </div>
+                <div id="review-list" class="review-list">
+                    <!-- Populated via Javascript -->
+                </div>
+            </section>
+
+            <!-- Address Registry Section -->
+            <section id="registry-section" class="results-section">
+                <div class="results-header">
+                    <div class="results-meta">
+                        <h2>Address Registry</h2>
+                        <span id="registry-count" class="badge">0 addresses</span>
+                    </div>
+                    <div class="actions-group">
+                        <button type="button" class="btn btn-export" id="download-registry-csv-btn">
+                            <i data-lucide="download"></i> Download CSV
+                        </button>
+                        <button type="button" class="btn btn-export" id="prev-addresses-btn">
+                            Previous
+                        </button>
+                        <button type="button" class="btn btn-export" id="next-addresses-btn">
+                            Next
+                        </button>
+                    </div>
+                </div>
+
+                <div class="registry-filters">
+                    <input
+                        type="text"
+                        id="address-search-input"
+                        placeholder="Search normalized address"
+                        class="filter-input"
+                    >
+                    <select id="city-filter-select" class="filter-input">
+                        <option value="">All cities</option>
+                    </select>
+                    <select id="state-filter-select" class="filter-input">
+                        <option value="">All states</option>
+                    </select>
+                    <select id="zip-filter-select" class="filter-input">
+                        <option value="">All ZIPs</option>
+                    </select>
+                    <button type="button" class="btn btn-export" id="apply-address-filters-btn">
+                        Apply
+                    </button>
+                    <button type="button" class="btn btn-export" id="clear-address-filters-btn">
+                        Clear
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table id="registry-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Normalized</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Zip</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registry-table-body">
+                            <!-- Populated via Javascript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="address-detail" class="address-detail hidden"></div>
+            </section>
         </main>
 
         <footer class="app-footer">
@@ -131,8 +210,43 @@
         </footer>
     </div>
 
+    <!-- Edit Address Modal -->
+    <div id="edit-address-modal" class="modal hidden">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3>Correct Address Details</h3>
+                <button type="button" class="btn-close" id="close-edit-modal-btn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="edit-address-form">
+                <input type="hidden" id="edit-address-id">
+                <div class="form-group">
+                    <label for="edit-street">Street Address</label>
+                    <input type="text" id="edit-street" required class="filter-input">
+                </div>
+                <div class="form-group">
+                    <label for="edit-city">City</label>
+                    <input type="text" id="edit-city" required class="filter-input">
+                </div>
+                <div class="form-group">
+                    <label for="edit-state">State</label>
+                    <input type="text" id="edit-state" required class="filter-input">
+                </div>
+                <div class="form-group">
+                    <label for="edit-zip">ZIP Code</label>
+                    <input type="text" id="edit-zip" required class="filter-input">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-edit-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Script -->
-    <script src="/static/js/script.js"></script>
+    <script src="/static/js/script.js?v=2"></script>
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();

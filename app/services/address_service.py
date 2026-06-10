@@ -101,6 +101,25 @@ class AddressService:
                     detail="The file is too large to process. Please upload a smaller document."
                 )
             
+            return AddressService.process_text(text)
+            
+        except HTTPException as e:
+            # Re-raise known HTTP exceptions
+            raise e
+        except Exception as e:
+            # Catch other unexpected exceptions and wrap them as a 500 error
+            raise HTTPException(
+                status_code=500,
+                detail="Something went wrong on server. Please try again later."
+            )
+
+    @staticmethod
+    def process_text(text: str) -> list:
+        """
+        Process extracted text: chunk, and call Smarty API.
+        Return list of Address objects.
+        """
+        try:
             # Step 6: Chunk the text to stay within Smarty API limit (64 KB)
             chunks = AddressService.chunk_text(text)
             

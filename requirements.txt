@@ -5,3 +5,6 @@ PyPDF2
 requests
 python-dotenv
 pydantic
+sqlalchemy>=2,<3
+usaddress
+rapidfuzz

@@ -4,9 +4,24 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, HTMLResponse
 from app.api.routes import router
+from contextlib import asynccontextmanager
+from app.db import init_db
+from app.logging_config import setup_logging
+
+
+setup_logging()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
 
 # Initialize FastAPI app
-app = FastAPI(title="Address Extraction Web App")
+app = FastAPI(
+    title="Address Extraction Web App",
+    lifespan=lifespan,
+)
 
 # Get path of current file directory
 base_dir = os.path.dirname(os.path.abspath(__file__))

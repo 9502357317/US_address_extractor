@@ -14,10 +14,10 @@ This application is built with a SQLite database backend, SQLAlchemy ORM, and ha
 *   **Task 11: Content-Level Deduplication**: If files have different filenames or minor whitespace variations but contain the same text content, the application collapses the text (collapsing all consecutive whitespace and newlines to single spaces and converting to lowercase) and hashes the result. Uploading a content-level duplicate is rejected with a `409 Conflict`.
 *   **Concurrency & Chunking**: To prevent timeouts and stay within API payload size restrictions, large documents are split into smaller chunks on sentence/word boundaries. These chunks are processed concurrently in parallel.
 
-### 🔍 Address registry, FTS5 Search & Filtering
+### 🔍 Address registry, LIKE Search & Filtering
 *   **Task 4: Normalization**: Extracted address components (Street, City, State, Zip) are normalized to uppercase, stripped of leading/trailing spaces, and stored as structured fields. A unified `normalized` address string is automatically derived from these components.
 *   **Task 5, 6, 7 & 13: Registry search, pagination, and statistics**:
-    *   **Search**: Fully integrated SQLite **FTS5** (Full-Text Search) matching on address strings (e.g., searching `River` returns `Riverside`).
+    *   **Search**: Fully integrated SQLite **LIKE** matching on the normalized address column (supporting partial/substring matching, e.g., searching `iverside` matches `Riverside`).
     *   **Filters**: Dropdown filter options for `City`, `State`, and `Zip` derived dynamically from the registry database.
     *   **Pagination**: Paginated endpoints accepting `limit` and `offset` parameters to cleanly page through thousands of entries.
     *   **Dashboard Stats**: A `/stats` endpoint tracking the number of processed documents, failed documents, active addresses, duplicate files blocked, and near-duplicate addresses resolved.

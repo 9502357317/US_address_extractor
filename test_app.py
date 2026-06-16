@@ -699,7 +699,7 @@ class TestAddressExtractionApp(unittest.TestCase):
             self.assertEqual(db_addr.street, "123 NEW AVE")
             self.assertEqual(db_addr.normalized, "123 NEW AVE NEW CITY NY 10002")
 
-    def test_addresses_search_fts5(self):
+    def test_addresses_search_like(self):
         from app.db import SessionLocal
         from app.models.database_models import Address as AddressRecord
 
@@ -739,6 +739,20 @@ class TestAddressExtractionApp(unittest.TestCase):
         self.assertEqual(data["total"], 1)
         self.assertEqual(data["items"][0]["city"], "NEW YORK")
 
+        # Substring search for middle part of word "iverside"
+        response = self.client.get("/addresses?search=iverside")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["total"], 1)
+        self.assertEqual(data["items"][0]["city"], "RIVERSIDE")
+
+        # Substring search for middle part of word "adison"
+        response = self.client.get("/addresses?search=adison")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["total"], 1)
+        self.assertEqual(data["items"][0]["city"], "NEW YORK")
+
     def test_addresses_export_csv(self):
         from app.db import SessionLocal
         from app.models.database_models import Address as AddressRecord
@@ -765,6 +779,12 @@ class TestAddressExtractionApp(unittest.TestCase):
 
         # Export CSV with search filter matching "River"
         response = self.client.get("/export?format=csv&search=River")
+        self.assertEqual(response.status_code, 200)
+        content = response.text
+        self.assertIn("3900 MAIN ST RIVERSIDE CA 92522", content)
+
+        # Export CSV with search filter matching substring "iverside"
+        response = self.client.get("/export?format=csv&search=iverside")
         self.assertEqual(response.status_code, 200)
         content = response.text
         self.assertIn("3900 MAIN ST RIVERSIDE CA 92522", content)

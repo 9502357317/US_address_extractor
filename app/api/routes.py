@@ -514,16 +514,7 @@ def export_addresses(
 
             # Apply active search/filter options
             if search:
-                words = [w.strip() for w in search.strip().split() if w.strip()]
-                if words:
-                    escaped_words = [w.replace('"', '""') for w in words]
-                    fts_query = " ".join(f'"{ew}"*' for ew in escaped_words)
-                    fts_subquery = (
-                        select(text("address_id"))
-                        .select_from(text("addresses_fts"))
-                        .where(text("addresses_fts MATCH :query").bindparams(query=fts_query))
-                    )
-                    filters.append(AddressRecord.id.in_(fts_subquery))
+                filters.append(AddressRecord.normalized.like(f"%{search}%"))
 
             if city:
                 filters.append(AddressRecord.city == city.strip().upper())
